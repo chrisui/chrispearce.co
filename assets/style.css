@@ -86,7 +86,7 @@ blockquote {
   padding: 0;
   display: flex;
   flex-direction: column;
-  width: 880px;
+  width: 980px;
 }
 
 .clients li {
@@ -112,7 +112,7 @@ blockquote {
 }
 
 .clients li:nth-child(2n) img {
-  order: 2;
+  order: 1;
 }
 
 .work {
@@ -213,6 +213,7 @@ img {
   .clients {
     width: 100%;
     padding: 0;
+    align-items: center;
   }
 
   .clients img {
@@ -220,8 +221,20 @@ img {
     margin: 0 1em;
   }
 
+  .clients li {
+    width: 100%;
+  }
+
   .clients li + li {
-    margin-top: 2em;
+    margin-top: 1em;
+  }
+
+  .clients li:nth-child(2n) {
+    align-self: center;
+  }
+
+  .clients li:nth-child(2n) img {
+    order: 0;
   }
 
   .work {
