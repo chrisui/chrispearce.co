@@ -204,7 +204,7 @@ img {
   max-width: 100%;
 }
 
-@media only screen and (max-width: 1000px) {
+@media (max-width: 1000px) {
   .available {
     display: none;
     position: static;
@@ -212,10 +212,16 @@ img {
 
   .clients {
     width: 100%;
+    padding: 0;
   }
 
   .clients img {
     width: 120px;
+    margin: 0 1em;
+  }
+
+  .clients li + li {
+    margin-top: 2em;
   }
 
   .work {
@@ -224,6 +230,12 @@ img {
 
   .work li {
     width: 50%;
+    padding: 0 0.5em 2em 0.5em;
+  }
+
+  .services {
+    padding: 0 1em;
+    width: 100%;
   }
 
   .links li {
