@@ -1,0 +1,205 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0 0 10vh 0;
+  line-height: 1.5em;
+  font-size: 18px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  line-height: 1.3em;
+}
+
+h2 {
+  text-decoration: underline;
+  text-decoration-style: solid;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: blue;
+}
+
+header,
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+header {
+  min-height: 80vh;
+}
+
+p,
+blockquote {
+  margin: 1em 0 0 0;
+  max-width: 780px;
+}
+
+q,
+blockquote {
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 5vh 1em;
+}
+
+.content.centered {
+  text-align: center;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  color: white;
+  background: blue;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.button:hover {
+  background: black;
+  color: white;
+}
+
+.clients {
+  list-style: none;
+  margin: 0 auto 10vh auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 880px;
+}
+
+.clients li {
+  display: flex;
+  align-items: center;
+  width: 780px;
+}
+
+.clients li > div {
+  flex: 1;
+}
+
+.clients li + li {
+  margin-top: 3em;
+}
+
+.clients img {
+  margin-right: 3em;
+}
+
+.clients li:nth-child(2n) {
+  align-self: flex-end;
+}
+
+.clients li:nth-child(2n) img {
+  order: 2;
+}
+
+.work {
+  list-style: none;
+  margin: 0 auto 10vh auto;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 960px;
+}
+
+.work li {
+  display: block;
+  width: 33.33%;
+  text-align: center;
+  padding: 0 1em 3em 1em;
+}
+
+h5 {
+  color: #565656;
+  font-weight: 500;
+}
+
+.services {
+  list-style: none;
+  margin: 0 auto 10vh auto;
+  padding: 0;
+  width: 780px;
+}
+
+.services li {
+  padding-bottom: 1.5em;
+}
+
+.contact {
+  padding: 1em 0 2em 0;
+}
+
+.quote h5 {
+  padding-top: 0.5em;
+}
+
+.links {
+  display: flex;
+  margin: 0 auto;
+  padding: 10vh 0 5vh 0;
+  list-style: none;
+  justify-content: center;
+}
+
+.links li {
+  padding: 0 2em;
+  font-weight: 700;
+}
+
+@media print {
+  .hide-print {
+    display: none !important;
+  }
+}
+
+.available {
+  width: 360px;
+  height: 200px;
+  position: absolute;
+  top: -50px;
+  left: -140px;
+  transform: rotate(-45deg);
+  background: black;
+  color: white;
+  font-weight: bold;
+  align-items: flex-end;
+  justify-content: center;
+  display: flex;
+}
+
+.available:hover {
+  color: white;
+  background: blue;
+}
+
+.available p {
+  padding: 1em;
+}
+
+img {
+  max-width: 100%;
+}
