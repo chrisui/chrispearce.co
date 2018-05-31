@@ -92,7 +92,7 @@ blockquote {
 .clients li {
   display: flex;
   align-items: center;
-  width: 780px;
+  width: 85%;
 }
 
 .clients li > div {
@@ -202,4 +202,31 @@ h5 {
 
 img {
   max-width: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+  .available {
+    display: none;
+    position: static;
+  }
+
+  .clients {
+    width: 100%;
+  }
+
+  .clients img {
+    width: 120px;
+  }
+
+  .work {
+    width: 100%;
+  }
+
+  .work li {
+    width: 50%;
+  }
+
+  .links li {
+    padding: 0 1em;
+  }
 }
