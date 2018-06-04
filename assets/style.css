@@ -111,6 +111,7 @@ blockquote {
   -ms-flex-align: center;
   align-items: center;
   width: 85%;
+  padding-right: 1em;
 }
 
 .clients li > div {
@@ -250,7 +251,6 @@ img {
 @media (max-width: 1000px) {
   .available {
     display: none;
-    position: static;
   }
 
   .clients {
