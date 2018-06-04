@@ -4,7 +4,7 @@ Personal site of [Chris Pearce](https://chrispearce.co), Frontend Engineer.
 
 # Install for development
 
-`npm install -g cssnano-cli html-minifier`
+`npm install -g cssnano-cli html-minifier tinypng-cli`
 
 # Build
 

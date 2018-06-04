@@ -17,4 +17,7 @@ html-minifier --input-dir ./src/ --output-dir ./docs/ --file-ext html --collapse
 # minify css
 cssnano ./src/assets/style.css ./docs/assets/style.css
 
+# Optimise Images
+tinypng ./docs/assets/ -k 4HExNBRdPwVEH7TxluFrfv9UrVeNt8fp
+
 echo "Build complete!"
