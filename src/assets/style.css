@@ -176,14 +176,20 @@ h5 {
 }
 
 .services {
-  list-style: none;
   margin: 0 auto 10vh auto;
-  padding: 0;
   width: 960px;
+  display: flex;
+  align-items: center;
 }
 
-.services li {
-  padding-bottom: 1.5em;
+.services ul {
+  list-style: none;
+  padding: 0;
+  flex: 2;
+}
+
+.services li + li {
+  padding-top: 1.5em;
 }
 
 .contact {
@@ -303,6 +309,11 @@ img {
   .services {
     padding: 0 1em;
     width: 100%;
+    flex-direction: column;
+  }
+
+  .services ul {
+    margin-bottom: 4em;
   }
 
   .links li {
