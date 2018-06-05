@@ -115,7 +115,7 @@ blockquote {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  width: 85%;
+  width: 75%;
   padding-right: 1em;
 }
 
@@ -125,10 +125,6 @@ blockquote {
   flex: 1;
 }
 
-.clients li + li {
-  margin-top: 3em;
-}
-
 .clients img {
   margin-right: 3em;
 }
@@ -136,12 +132,16 @@ blockquote {
 .clients li:nth-child(2n) {
   -ms-flex-item-align: end;
   align-self: flex-end;
+  padding-right: 0;
+  padding-left: 1em;
 }
 
 .clients li:nth-child(2n) img {
   -webkit-box-ordinal-group: 2;
   -ms-flex-order: 1;
   order: 1;
+  margin-right: 0;
+  margin-left: 3em;
 }
 
 .work {
