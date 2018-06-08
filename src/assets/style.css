@@ -218,6 +218,9 @@ h5 {
 }
 
 @media print {
+  body {
+    font-size: 14px;
+  }
   .hide-print {
     display: none !important;
   }
