@@ -127,6 +127,7 @@ blockquote {
 
 .clients img {
   margin-right: 3em;
+  border-radius: 50%;
 }
 
 .clients li:nth-child(2n) {
