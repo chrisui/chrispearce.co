@@ -1,61 +1,75 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Exploring Hotkeys and Focus in React - Chris Pearce, Frontend Engineer
+    </title>
+    <link rel="stylesheet" type="text/css" href="../assets/style.css" />
+    <style>
+      p {
+        margin: 1em 0;
+      }
 
-<head>
-  <meta charset="utf-8">
-  <title>Exploring Hotkeys and Focus in React - Chris Pearce, Frontend Engineer</title>
-  <link rel="stylesheet" type="text/css" href="../assets/style.css" />
-  <style>
-    p {
-      margin: 1em 0;
-    }
+      h2,
+      h3,
+      h4,
+      h5 {
+        text-align: center;
+        margin: 2em 0;
+      }
+    </style>
+  </head>
 
-    h2,
-    h3,
-    h4,
-    h5 {
-      text-align: center;
-      margin: 2em 0;
-    }
-  </style>
-</head>
+  <body>
+    <div class="content">
+      <h1>Exploring Hotkeys and Focus in React</h1>
+      <h5>
+        Authored by
+        <a href="../">Chris Pearce</a>
+      </h5>
+      <p>
+        <em
+          >TLDR; Tracking 'focus' in web apps is difficult but React makes it
+          easy by normalising the propagation of <code>onFocus</code> &amp;
+          <code>onBlur</code>. Taking advantage of this and some key binding
+          gives us a new library
+          <a href="https://github.com/Chrisui/react-hotkeys">react-hotkeys</a>
+          !</em
+        >
+      </p>
 
-<body>
-  <div class="content">
-    <h1>Exploring Hotkeys and Focus in React</h1>
-    <h5>Authored by
-      <a href="../">Chris Pearce</a>
-    </h5>
-    <p>
-      <em>TLDR; Tracking 'focus' in web apps is difficult but React makes it easy by normalising the propagation of
-        <code>onFocus</code> &amp;
-        <code>onBlur</code>. Taking advantage of this and some key binding gives us a new library
-        <a href="https://github.com/Chrisui/react-hotkeys">react-hotkeys</a> !</em>
-    </p>
+      <p>
+        One of the problems many developers face when developing non-trivial web
+        apps is the implementation of hotkeys and focus management.
+      </p>
 
-    <p>One of the problems many developers face when developing non-trivial web apps is the implementation of hotkeys and focus
-      management.
-    </p>
+      <p>
+        Natively browser environments only give us basic functionality for
+        interacting with elements it deems 'in focus'. Browsers only have a
+        concept of a
+        <em>single</em>
+        <code>activeElement</code> which is most commonly seen as an
+        <code>input</code> or <code>a</code> element and therefore the
+        <code>focus</code> event does <em>not</em> bubble.
+      </p>
 
-    <p>Natively browser environments only give us basic functionality for interacting with elements it deems 'in focus'. Browsers
-      only have a concept of a
-      <em>single</em>
-      <code>activeElement</code> which is most commonly seen as an
-      <code>input</code> or
-      <code>a</code> element and therefore the
-      <code>focus</code> event does
-      <em>not</em> bubble.</p>
+      <blockquote>
+        <p>
+          Quick Tip: You can make other elements (Ie. <code>div's</code>)
+          receive the power of focus by setting the
+          <code>tabindex</code> attribute on the element
+        </p>
+      </blockquote>
 
-    <blockquote>
-      <p>Quick Tip: You can make other elements (Ie.
-        <code>div's</code>) receive the power of focus by setting the
-        <code>tabindex</code> attribute on the element</p>
-    </blockquote>
+      <p>
+        This basic functionality allows you to respond to direct interaction on
+        an individudal element level but misses the flexibility required for the
+        simple propagating of events which is required for powerful hotkey
+        management.
+      </p>
 
-    <p>This basic functionality allows you to respond to direct interaction on an individudal element level but misses the flexibility
-      required for the simple propagating of events which is required for powerful hotkey management.</p>
-
-    <pre><code>&lt;div id="root"&gt;
+      <pre><code>&lt;div id="root"&gt;
           &lt;input /&gt;
       &lt;/div&gt;
       
@@ -64,15 +78,18 @@
       });
       </code></pre>
 
-    <p>So, imagine you have this interface: You have a
-      <code>Viewport</code> with child
-      <code>Editor's</code> (they're just some forms for editing nodes within the
-      <code>Viewport</code>) and within these you have an
-      <code>AutoComplete</code> component which allows you to type out styles while being offered suggestions (think DevTools style editor).</p>
+      <p>
+        So, imagine you have this interface: You have a
+        <code>Viewport</code> with child <code>Editor's</code> (they're just
+        some forms for editing nodes within the <code>Viewport</code>) and
+        within these you have an <code>AutoComplete</code> component which
+        allows you to type out styles while being offered suggestions (think
+        DevTools style editor).
+      </p>
 
-    <p>The psuedo-react-tree would look a bit like:</p>
+      <p>The psuedo-react-tree would look a bit like:</p>
 
-    <pre><code>&lt;Viewport&gt;
+      <pre><code>&lt;Viewport&gt;
           &lt;Editor&gt;
               &lt;AutoComplete /&gt;
           &lt;/Editor&gt;
@@ -82,84 +99,127 @@
       &lt;/Viewport&gt;
       </code></pre>
 
-    <p>Now, you're trying to use the browser focus handling, you focus on the
-      <code>AutoComplete</code> input by clicking into it. The browser correctly lets you know that this is your focused element by triggering the
-      <code>focus</code> event on the node and elsewhere probably triggering a
-      <code>blur</code> event. Great! </p>
+      <p>
+        Now, you're trying to use the browser focus handling, you focus on the
+        <code>AutoComplete</code> input by clicking into it. The browser
+        correctly lets you know that this is your focused element by triggering
+        the <code>focus</code> event on the node and elsewhere probably
+        triggering a <code>blur</code> event. Great!
+      </p>
 
-    <p>But...</p>
+      <p>But...</p>
 
-    <p>You have a hot key, say
-      <code>esc</code>, which you want to be able to close an
-      <code>Editor</code> window. If your hotkeys are global, and you only know of the single focused
-      <code>AutoComplete</code> how do you know which
-      <code>Editor</code> you should be closing? Due to the non-bubbling nature of the
-      <code>focus</code> and
-      <code>blur</code> events your parents will have no idea when a child has been focused and is therefore in some indirect level of focus.</p>
+      <p>
+        You have a hot key, say <code>esc</code>, which you want to be able to
+        close an <code>Editor</code> window. If your hotkeys are global, and you
+        only know of the single focused <code>AutoComplete</code> how do you
+        know which <code>Editor</code> you should be closing? Due to the
+        non-bubbling nature of the <code>focus</code> and
+        <code>blur</code> events your parents will have no idea when a child has
+        been focused and is therefore in some indirect level of focus.
+      </p>
 
-    <p>You'd have to traverse the tree from the
-      <code>activeElement</code> until you find a component (
-      <code>Editor</code>) which has a matching hotkey handler. And how can an element higher up the tree know when it is technically within
-      the "focus tree" and so should allow hotkey triggering?</p>
+      <p>
+        You'd have to traverse the tree from the
+        <code>activeElement</code> until you find a component (
+        <code>Editor</code>) which has a matching hotkey handler. And how can an
+        element higher up the tree know when it is technically within the "focus
+        tree" and so should allow hotkey triggering?
+      </p>
 
-    <h3 id="enterfocusin">Enter focusin</h3>
+      <h3 id="enterfocusin">Enter focusin</h3>
 
-    <p>To solve the non-bubbling issues surrounding
-      <code>focus</code> and
-      <code>blur</code> events there is a
-      <a href="http://www.w3.org/TR/DOM-Level-3-Events/#event-type-focusIn">draft level spec</a> for
-      <code>focusin</code> and
-      <code>focusout</code> events which are identical to their respective
-      <code>focus</code> and
-      <code>blur</code> events except for the key difference that they
-      <em>do</em> bubble.</p>
+      <p>
+        To solve the non-bubbling issues surrounding <code>focus</code> and
+        <code>blur</code> events there is a
+        <a href="http://www.w3.org/TR/DOM-Level-3-Events/#event-type-focusIn"
+          >draft level spec</a
+        >
+        for <code>focusin</code> and <code>focusout</code> events which are
+        identical to their respective <code>focus</code> and
+        <code>blur</code> events except for the key difference that they
+        <em>do</em> bubble.
+      </p>
 
-    <p>As always with any upcoming spec there are many cross-browser issues surrounding them (Firefox doesn't implmenet them
-      at all!) but there is is an
-      <a href="http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html">excelent article on quirksmode</a> which explores how to try and workaround these issues and achieve the desired functionality
-      across different browsers.</p>
+      <p>
+        As always with any upcoming spec there are many cross-browser issues
+        surrounding them (Firefox doesn't implmenet them at all!) but there is
+        is an
+        <a
+          href="http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html"
+          >excelent article on quirksmode</a
+        >
+        which explores how to try and workaround these issues and achieve the
+        desired functionality across different browsers.
+      </p>
 
-    <p>What we need is to reduce the boilerplate required and achieve a consistent cross-browser api which has 0 weird side
-      effects.
-    </p>
+      <p>
+        What we need is to reduce the boilerplate required and achieve a
+        consistent cross-browser api which has 0 weird side effects.
+      </p>
 
-    <h3 id="reacttotherescue">React to the rescue</h3>
+      <h3 id="reacttotherescue">React to the rescue</h3>
 
-    <p>Internally React has its own
-      <a href="https://facebook.github.io/react/docs/events.html">Events System</a> which handles
-      <a href="http://davidwalsh.name/event-delegate">delegation</a> of user events. When you bind an
-      <code>onClick</code> handler onto an element in React it will actually just track that through a single global event handler at the root
-      of your application and use its own method of propagating the events through your tree from the target element.</p>
+      <p>
+        Internally React has its own
+        <a href="https://facebook.github.io/react/docs/events.html"
+          >Events System</a
+        >
+        which handles
+        <a href="http://davidwalsh.name/event-delegate">delegation</a> of user
+        events. When you bind an <code>onClick</code> handler onto an element in
+        React it will actually just track that through a single global event
+        handler at the root of your application and use its own method of
+        propagating the events through your tree from the target element.
+      </p>
 
-    <p>While the auto-delegation aspect of the events sytem is cool we're more interested in the custom propagation of events
-      here.
-    </p>
+      <p>
+        While the auto-delegation aspect of the events sytem is cool we're more
+        interested in the custom propagation of events here.
+      </p>
 
-    <p>Why is it so good? Well.
-      <strong>The
-        <code>focus</code> event is bubbled by default! With 0 configuration or hacks we are able to bind
-        <code>onFocus</code> handlers to our target focusable element
-        <em>AND</em> to all its parents.</strong>
-    </p>
+      <p>
+        Why is it so good? Well.
+        <strong
+          >The <code>focus</code> event is bubbled by default! With 0
+          configuration or hacks we are able to bind
+          <code>onFocus</code> handlers to our target focusable element
+          <em>AND</em> to all its parents.</strong
+        >
+      </p>
 
-    <p>This turns out to be a much more sensible default and allows for a lot more use-cases of 'focus'. If you have a specific
-      focusable target element you can simple
-      <code>stopPropagation()</code> on the event to prevent the default bubbling behaviour.</p>
+      <p>
+        This turns out to be a much more sensible default and allows for a lot
+        more use-cases of 'focus'. If you have a specific focusable target
+        element you can simple <code>stopPropagation()</code> on the event to
+        prevent the default bubbling behaviour.
+      </p>
 
-    <h3 id="sohotkeys">So... hotkeys?</h3>
+      <h3 id="sohotkeys">So... hotkeys?</h3>
 
-    <p>With the ability to monitor the 'focus state' of particular elements (where the element may not neccassarily be a direct
-      focus target but simply within the parent tree) it makes it very easy to bind contextual hotkeys.</p>
+      <p>
+        With the ability to monitor the 'focus state' of particular elements
+        (where the element may not neccassarily be a direct focus target but
+        simply within the parent tree) it makes it very easy to bind contextual
+        hotkeys.
+      </p>
 
-    <p>And using @ccampbell's excelent
-      <a href="https://github.com/ccampbell/mousetrap">mousetrap</a> library we are able to declare our hotkeys with very inutitive syntax.</p>
+      <p>
+        And using @ccampbell's excelent
+        <a href="https://github.com/ccampbell/mousetrap">mousetrap</a> library
+        we are able to declare our hotkeys with very inutitive syntax.
+      </p>
 
-    <p>Combining all this you get
-      <strong>
-        <a href="https://github.com/Chrisui/react-hotkeys">react-hotkeys</a>
-      </strong> which provides a declarative way of binding hotkeys to your React application.</p>
+      <p>
+        Combining all this you get
+        <strong>
+          <a href="https://github.com/Chrisui/react-hotkeys">react-hotkeys</a>
+        </strong>
+        which provides a declarative way of binding hotkeys to your React
+        application.
+      </p>
 
-    <pre><code>import {HotKeys} from 'react-hotkeys';
+      <pre><code>import {HotKeys} from 'react-hotkeys';
       
       const keyMap = {
           'deleteNode': ['del', 'backspace'],
@@ -180,18 +240,29 @@
       }
       </code></pre>
 
-    <p>The library aims to take the pain out of defining key mappings, knowing when certain components are 'in focus' and which
-      hotkey handlers in the hierarchy should be called while providing a minimal API and getting out the way for the most
-      part.
-    </p>
+      <p>
+        The library aims to take the pain out of defining key mappings, knowing
+        when certain components are 'in focus' and which hotkey handlers in the
+        hierarchy should be called while providing a minimal API and getting out
+        the way for the most part.
+      </p>
 
-    <p>If you'd like to get hands on with react-hotkeys then it's probably best to start with the
-      <a href="https://github.com/Chrisui/react-hotkeys/blob/master/docs/getting-started.md">getting-started</a> guide!</p>
+      <p>
+        If you'd like to get hands on with react-hotkeys then it's probably best
+        to start with the
+        <a
+          href="https://github.com/Chrisui/react-hotkeys/blob/master/docs/getting-started.md"
+          >getting-started</a
+        >
+        guide!
+      </p>
 
-    <p>I've put together my initial ideas for the full public API below so check it out and help me make focus and hotkeys easy
-      for React users!</p>
+      <p>
+        I've put together my initial ideas for the full public API below so
+        check it out and help me make focus and hotkeys easy for React users!
+      </p>
 
-    <pre><code>/**
+      <pre><code>/**
        * Basic 1:1 mapping of named hot keys to their key combo
        * - All Mousetrap (https://github.com/ccampbell/mousetrap) 
        *   combos will be supported
@@ -311,10 +382,9 @@
       
       React.render(&lt;App /&gt;, document.body);
       </code></pre>
-    <p class="hide-print">
-      <a href="../" class="button">Back to site</a>
-    </p>
-  </div>
-</body>
-
+      <p class="hide-print">
+        <a href="../" class="button">Back to site</a>
+      </p>
+    </div>
+  </body>
 </html>

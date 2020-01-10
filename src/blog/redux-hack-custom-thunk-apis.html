@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Redux Hack: Custom Thunk API's - Chris Pearce, Frontend Engineer
+    </title>
+    <link rel="stylesheet" type="text/css" href="../assets/style.css" />
+    <style>
+      p {
+        margin: 1em 0;
+      }
 
-<head>
-  <meta charset="utf-8">
-  <title>Redux Hack: Custom Thunk API's - Chris Pearce, Frontend Engineer</title>
-  <link rel="stylesheet" type="text/css" href="../assets/style.css" />
-  <style>
-    p {
-      margin: 1em 0;
-    }
+      h2,
+      h3,
+      h4,
+      h5 {
+        text-align: center;
+        margin: 2em 0;
+      }
+    </style>
+  </head>
 
-    h2,
-    h3,
-    h4,
-    h5 {
-      text-align: center;
-      margin: 2em 0;
-    }
-  </style>
-</head>
+  <body>
+    <div class="content">
+      <h1>Redux Hack: Custom Thunk APIs</h1>
+      <h5>
+        Authored by
+        <a href="../">Chris Pearce</a>
+      </h5>
+      <p>
+        TL;DR:
+        <a
+          href="https://gist.github.com/Chrisui/750ee07f500df6355f2bcee96115b769"
+          >Thunk middleware with custom API</a
+        >
+        makes action creators isolated and easily testable.
+      </p>
 
-<body>
-  <div class="content">
-    <h1>Redux Hack: Custom Thunk APIs</h1>
-    <h5>Authored by
-      <a href="../">Chris Pearce</a>
-    </h5>
-    <p>TL;DR:
-      <a href="https://gist.github.com/Chrisui/750ee07f500df6355f2bcee96115b769">Thunk middleware with custom API</a> makes action creators isolated and easily testable.</p>
+      <p>
+        One of the first features you come across when working with
+        <a href="http://redux.js.org">Redux</a> is the concept of an "Action
+        Creator". An Action Creator is simply a function which will return an
+        "Action" (an object describing something <em>to happen</em> or
+        <em>has happened</em>). These Action Creators allow us to reduce
+        boilerplate and repetition across our codebase - instead of calling
+        <code>dispatch(action)</code> in our views we are isolating that logic
+        into our Action Creators.
+      </p>
 
-    <p>One of the first features you come across when working with
-      <a href="http://redux.js.org">Redux</a> is the concept of an "Action Creator". An Action Creator is simply a function which will return an "Action"
-      (an object describing something
-      <em>to happen</em> or
-      <em>has happened</em>). These Action Creators allow us to reduce boilerplate and repetition across our codebase - instead
-      of calling
-      <code>dispatch(action)</code> in our views we are isolating that logic into our Action Creators. </p>
+      <p>
+        Then comes the requirement of async flows. The most obvious activity
+        being requesting data from a server. We now need to make our Action
+        Creators handle this gracefully so how do we do it?
+      </p>
 
-    <p>Then comes the requirement of async flows. The most obvious activity being requesting data from a server. We now need
-      to make our Action Creators handle this gracefully so how do we do it?</p>
+      <p>
+        The first thing we'll find suggested is using "Thunk Middleware". A
+        Thunk in this sense is simply a function which is returned from our
+        action creator. Redux middleware can then call this with some specific
+        arguments allowing us to <em>act later</em> and importantly
+        <em
+          >with access to new references as provided by the thunk middleware</em
+        >
+        - in particular we can call <code>dispatch</code> again later.
+      </p>
 
-    <p>The first thing we'll find suggested is using "Thunk Middleware". A Thunk in this sense is simply a function which is
-      returned from our action creator. Redux middleware can then call this with some specific arguments allowing us to
-      <em>act later</em> and importantly
-      <em>with access to new references as provided by the thunk middleware</em> - in particular we can call
-      <code>dispatch</code> again later.</p>
+      <p>A basic example is as follows:</p>
 
-    <p>A basic example is as follows:</p>
-
-    <pre><code>function asyncActionCreator() {
+      <pre><code>function asyncActionCreator() {
         return function thunk({dispatch}) {
           setTimeout(function doLater() {
             // dispatch an action *later*
@@ -58,10 +77,14 @@
       }
       </code></pre>
 
-    <p>It should hopefully be relatively obvious how this would translate to doing something useful - going back to our example
-      of fetching data how would we do that? Well we need some API Utils so let's just import them, right?</p>
+      <p>
+        It should hopefully be relatively obvious how this would translate to
+        doing something useful - going back to our example of fetching data how
+        would we do that? Well we need some API Utils so let's just import them,
+        right?
+      </p>
 
-    <pre><code>import api from 'api';
+      <pre><code>import api from 'api';
       
       function fetchUser(id) {
         return function thunk({dispatch}) {
@@ -72,43 +95,59 @@
       }
       </code></pre>
 
-    <p>
-      <em>Awesome!</em>
-    </p>
+      <p>
+        <em>Awesome!</em>
+      </p>
 
-    <p>But... How do we test this? We're now going to need to mock our dependencies. Ugh! This is a clear sign that our once
-      nicely-isolated testable function has broken it's bounds in terms of dependencies. If your 'api' contains state here
-      as well you're in for a bumpy ride.</p>
+      <p>
+        But... How do we test this? We're now going to need to mock our
+        dependencies. Ugh! This is a clear sign that our once nicely-isolated
+        testable function has broken it's bounds in terms of dependencies. If
+        your 'api' contains state here as well you're in for a bumpy ride.
+      </p>
 
-    <p>This is where some people cry "thunks are cool but don't scale!", "thunk's can't be tested easily!" etc. but I tend to
-      disagree still.</p>
+      <p>
+        This is where some people cry "thunks are cool but don't scale!",
+        "thunk's can't be tested easily!" etc. but I tend to disagree still.
+      </p>
 
-    <blockquote>
-      <p>We missed one important detail of the thunk middleware which would've allowed us to keep our action creators totally
-        isolated. The arguments.</p>
-    </blockquote>
+      <blockquote>
+        <p>
+          We missed one important detail of the thunk middleware which would've
+          allowed us to keep our action creators totally isolated. The
+          arguments.
+        </p>
+      </blockquote>
 
-    <p>The standard thunk-middleware just injects an object with two properties -
-      <code>getState</code> and
-      <code>dispatch</code>. That's great but why don't we inject
-      <em>more</em>!</p>
+      <p>
+        The standard thunk-middleware just injects an object with two properties
+        - <code>getState</code> and <code>dispatch</code>. That's great but why
+        don't we inject <em>more</em>!
+      </p>
 
-    <p>The thunk arguments provide the perfect point for injecting any outside dependencies in a manner you can test and isolate.</p>
+      <p>
+        The thunk arguments provide the perfect point for injecting any outside
+        dependencies in a manner you can test and isolate.
+      </p>
 
-    <p>For example our
-      <code>fetchUser</code> action creator will now look something more like this:</p>
+      <p>
+        For example our <code>fetchUser</code> action creator will now look
+        something more like this:
+      </p>
 
-    <pre><code>export function fetchUser(id) {
+      <pre><code>export function fetchUser(id) {
         return ({api, dispatch}) =&gt;
           api.fetch(`users/${id}`).then(resp =&gt;
             dispatch({action: FETCH_USER, user: resp.body.data}));
       }
       </code></pre>
 
-    <p>This function is now completely isolated and suddenly testing becomes
-      <em>really</em> simple.</p>
+      <p>
+        This function is now completely isolated and suddenly testing becomes
+        <em>really</em> simple.
+      </p>
 
-    <pre><code>// And now testing is *super* easy - just inject away!
+      <pre><code>// And now testing is *super* easy - just inject away!
       it ('should hit correct endpoint', () =&gt; {
         const api = createMockApi([
           {
@@ -127,41 +166,71 @@
       })
       </code></pre>
 
-    <p>
-      <em>You can find a more complete example of usage in
-        <a href="https://gist.github.com/Chrisui/750ee07f500df6355f2bcee96115b769">this gist</a>.</em>
-    </p>
+      <p>
+        <em
+          >You can find a more complete example of usage in
+          <a
+            href="https://gist.github.com/Chrisui/750ee07f500df6355f2bcee96115b769"
+            >this gist</a
+          >.</em
+        >
+      </p>
 
-    <p>So now async thunk based action creators are easily testable and, providing you structure them correctly within the scope
-      of your application (a topic for another time), they scale perfectly and are arguably more understandable, have less
-      caveats and way less of an architectural restriction on the way you code than some of the other solutions out there.</p>
+      <p>
+        So now async thunk based action creators are easily testable and,
+        providing you structure them correctly within the scope of your
+        application (a topic for another time), they scale perfectly and are
+        arguably more understandable, have less caveats and way less of an
+        architectural restriction on the way you code than some of the other
+        solutions out there.
+      </p>
 
-    <p>At Kalo we've been using custom thunk middleware since we picked up redux and, removing a little churn, have found them
-      to be incredibly powerful as a simple concept (much like Redux itself!) so don't throw away thunks too quickly - they
-      go a long way!</p>
+      <p>
+        At Kalo we've been using custom thunk middleware since we picked up
+        redux and, removing a little churn, have found them to be incredibly
+        powerful as a simple concept (much like Redux itself!) so don't throw
+        away thunks too quickly - they go a long way!
+      </p>
 
-    <p>If you enjoyed this post or it gave you some inspiration do
-      <a href="https://twitter.com/chrisui">reach out to me on twitter</a> and let me know so I can write more! :)</p>
+      <p>
+        If you enjoyed this post or it gave you some inspiration do
+        <a href="https://twitter.com/chrisui">reach out to me on twitter</a> and
+        let me know so I can write more! :)
+      </p>
 
-    <blockquote class="twitter-tweet" data-lang="en">
-      <p lang="en" dir="ltr">Wrote a quick blog post on how we&#39;ve made Redux Thunks testable with &quot;one small trick&quot;
-        <a href="https://t.co/OyqhKdr6JS">https://t.co/OyqhKdr6JS</a>
-        <a href="https://twitter.com/hashtag/redux?src=hash">#redux</a>
-        <a href="https://twitter.com/hashtag/reactjs?src=hash">#reactjs</a>
-      </p>&mdash; Chris Pearce (@Chrisui)
-      <a href="https://twitter.com/Chrisui/status/719821823194566656">April 12, 2016</a>
-    </blockquote>
+      <blockquote class="twitter-tweet" data-lang="en">
+        <p lang="en" dir="ltr">
+          Wrote a quick blog post on how we&#39;ve made Redux Thunks testable
+          with &quot;one small trick&quot;
+          <a href="https://t.co/OyqhKdr6JS">https://t.co/OyqhKdr6JS</a>
+          <a href="https://twitter.com/hashtag/redux?src=hash">#redux</a>
+          <a href="https://twitter.com/hashtag/reactjs?src=hash">#reactjs</a>
+        </p>
+        &mdash; Chris Pearce (@Chrisui)
+        <a href="https://twitter.com/Chrisui/status/719821823194566656"
+          >April 12, 2016</a
+        >
+      </blockquote>
 
-    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <script
+        async
+        src="//platform.twitter.com/widgets.js"
+        charset="utf-8"
+      ></script>
 
-    <p>
-      <em>Ps. I recently gave a talk on
-        <a href="https://speakerdeck.com/chrisui/real-world-redux">"real world redux"</a> if you're interested in finding out more about redux at scale in the wild!</em>
-    </p>
-    <p class="hide-print">
-      <a href="../" class="button">Back to site</a>
-    </p>
-  </div>
-</body>
-
+      <p>
+        <em
+          >Ps. I recently gave a talk on
+          <a href="https://speakerdeck.com/chrisui/real-world-redux"
+            >"real world redux"</a
+          >
+          if you're interested in finding out more about redux at scale in the
+          wild!</em
+        >
+      </p>
+      <p class="hide-print">
+        <a href="../" class="button">Back to site</a>
+      </p>
+    </div>
+  </body>
 </html>
