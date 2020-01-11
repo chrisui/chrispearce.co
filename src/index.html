@@ -228,34 +228,60 @@
       Pts.namespace(window);
       Pts.quickStart("#canvas", "rgb(22, 22, 22)");
       var pts = new Group();
+      space.autoResize = true;
       space.add({
         start: bound => {
-          pts = Create.distributeRandom(space.innerBound, 200);
+          pts = Create.distributeRandom(
+            new Bound(
+              new Pt([0 - space.width * 0.25, 0 - space.width * 0.25]),
+              new Pt([space.width * 1.25, space.width * 1.25])
+            ),
+            200
+          );
         },
         animate: (time, ftime) => {
           var perpend = new Group(
             space.center.$subtract(0.1),
             space.pointer
           ).op(Line.perpendicularFromPt);
+          pts.forEach((p, i) => {
+            p.x = p.x + Math.sin(time * 0.001) * 0.01;
+            p.y = p.y + Math.sin(time * 0.001) * 0.01;
+          });
           pts.rotate2D(0.0005, space.center);
           pts.forEach((p, i) => {
-            var lp = perpend(p);
+            // var lp = new Pt(
+            //   p.x + Math.sin(time * 0.001) * 5,
+            //   p.y + Math.sin(time * 0.001) * 5
+            // ).rotate2D(Math.sin(time * 0.001), p);
+
+            var lp = pts[i - 1] || p;
             var ratio =
               Math.min(
                 1,
-                1 - lp.$subtract(p).magnitude() / (space.size.x / 2)
-              ) * 0.3;
+                1 - lp.$subtract(p).magnitude() / (space.width * 1.5)
+              ) * 0.2;
             form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
+            var pointRatio = Math.min(
+              1,
+              1 -
+                p
+                  .clone()
+                  .$subtract(space.pointer)
+                  .magnitude() /
+                  space.height
+            );
             form
-              .fillOnly(
-                ["rgb(50, 50, 50)", "rgb(50, 50, 50)", "rgb(30, 30, 30)"][i % 3]
-              )
-              .point(p, 1);
+              .fillOnly(`rgba(255, 255, 255, ${Math.max(pointRatio, 0.2)})`)
+              .point(p, Math.max(2 * pointRatio, 1));
           });
         },
       });
 
-      space.play();
+      space
+        .bindMouse()
+        .bindTouch()
+        .play();
     </script>
   </body>
 </html>
