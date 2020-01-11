@@ -37,6 +37,14 @@ section {
   align-items: center;
 }
 
+section.padded {
+  padding: 5em 0;
+}
+
+section:not(.dark).padded + section:not(.dark).padded {
+  padding-top: 0;
+}
+
 q,
 blockquote {
   font-style: italic;
