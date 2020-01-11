@@ -1,10 +1,10 @@
 # chrispearce.co
 
-Personal site of [Chris Pearce](https://chrispearce.co), Frontend Engineer.
+Personal site of [Chris Pearce](https://chrispearce.co), Software Engineering & Product.
 
 # Install for development
 
-`npm install -g cssnano-cli html-minifier tinypng-cli`
+`npm install -g cssnano-cli html-minifier tinypng-cli autoprefixer-cli`
 
 # Build
 

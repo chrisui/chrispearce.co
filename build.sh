@@ -12,8 +12,9 @@ cp -rf ./src/. ./docs/
 # minify html
 html-minifier --input-dir ./src/ --output-dir ./docs/ --file-ext html --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css
 
-# minify css
-cssnano ./src/assets/style.css ./docs/assets/style.css
+# autoprefix + minify css
+autoprefixer-cli -o ./docs/assets/style.css ./src/assets/style.css
+cssnano ./docs/assets/style.css ./docs/assets/style.css
 
 # Optimise Images
 tinypng ./docs/assets/ -k 4HExNBRdPwVEH7TxluFrfv9UrVeNt8fp
