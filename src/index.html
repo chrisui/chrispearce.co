@@ -207,7 +207,7 @@
       </ul>
     </footer>
 
-    <script src="https://unpkg.com/pts/dist/pts.min.js"></script>
+    <script src="https://unpkg.com/pts/dist/pts.js"></script>
     <script>
       Pts.namespace(window);
       Pts.quickStart("#canvas", "rgb(22, 22, 22)");
@@ -224,38 +224,39 @@
           );
         },
         animate: (time, ftime) => {
-          var perpend = new Group(
-            space.center.$subtract(0.1),
-            space.pointer
-          ).op(Line.perpendicularFromPt);
-          pts.forEach((p, i) => {
-            p.x = p.x + Math.sin(time * 0.001) * 0.01;
-            p.y = p.y + Math.sin(time * 0.001) * 0.01;
-          });
+          var points = [];
+          var pointRatios = [];
           pts.rotate2D(0.0005, space.center);
           pts.forEach((p, i) => {
-            var lp = pts[i - 1] || p;
+            var pointRatio = Math.abs(
+              Math.min(
+                1,
+                1 - p.$subtract(space.pointer).magnitude() / space.height
+              )
+            );
+            var point = p.$add(p.$subtract(space.pointer).multiply(pointRatio));
+            points.push(point);
+            pointRatios.push(pointRatio);
+          });
+          pts.forEach((p, i) => {
+            p = points[i];
+            var pr = pointRatios[i];
+            var lp = points[i - 1] || p;
             var ratio =
               Math.min(
                 1,
                 1 - lp.$subtract(p).magnitude() / (space.width * 1.5)
               ) * 0.2;
-            var pointRatio = Math.min(
-              1,
-              1 - p.$subtract(space.pointer).magnitude() / space.height
-            );
-            var point = p.$add(p.$subtract(space.pointer).multiply(pointRatio));
-            form
-              .stroke(`rgba(255,255,255,${ratio}`, ratio * 2)
-              .line([point, lp]);
+
+            form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
             form
               .fillOnly(
                 `rgba(${(i * pts.length) / 255}, 255, 255, ${Math.max(
-                  pointRatio,
+                  pr,
                   0.2
                 )})`
               )
-              .point(point, Math.max(2 * pointRatio, 1));
+              .point(p, Math.max(2 * pr, 1));
           });
         },
       });
