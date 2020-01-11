@@ -71,6 +71,10 @@ blockquote {
   text-decoration: none;
 }
 
+footer {
+  border-top: 1px solid rgb(225, 225, 225);
+}
+
 header {
   min-height: 90vh;
   height: 0px;
@@ -124,6 +128,7 @@ section.dark .button:hover {
   display: flex;
   align-items: stretch;
   align-self: stretch;
+  background: rgb(22, 22, 22);
 }
 
 .clients li {
@@ -134,13 +139,15 @@ section.dark .button:hover {
   display: flex;
   align-items: stretch;
   flex-direction: column;
-  background: rgb(22, 22, 22);
   color: rgb(255, 255, 255);
 }
 
 .clients li:hover {
   filter: none;
-  background: rgb(0, 0, 0);
+}
+
+.clients a:hover {
+  text-decoration: none;
 }
 
 .clients li div {
@@ -162,6 +169,22 @@ section.dark .button:hover {
   width: 100%;
 }
 
+.clients li.text-client {
+  color: #fff;
+  background: rgb(70, 150, 200);
+}
+
+.text-client a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 30px;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #fff;
+}
+
 .work {
   list-style: none;
   margin: 0 auto 0 auto;
@@ -170,7 +193,7 @@ section.dark .button:hover {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  width: 960px;
+  max-width: 960px;
 }
 
 .work li {
@@ -182,18 +205,21 @@ section.dark .button:hover {
 
 h5 {
   font-weight: 500;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
 }
 
 .services {
   margin: 0 auto 3em auto;
-  width: 960px;
+  max-width: 960px;
   display: flex;
   align-items: center;
+  padding: 0 1em;
 }
 
 .services ul {
   list-style: none;
-  padding: 0;
+  padding: 0 3em 0 0;
   flex: 2;
 }
 
@@ -235,41 +261,61 @@ img {
   max-width: 100%;
 }
 
-@media (max-width: 1000px) {
-  .available {
-    display: none;
+@media (max-width: 767px) {
+  .clients {
+    flex-wrap: wrap;
   }
 
-  .clients {
+  .clients li {
+    min-width: 30%;
   }
 
   .work {
     width: 100%;
+    padding: 0 1em;
   }
 
   .work li {
     width: 50%;
     padding: 0 0.5em 2em 0.5em;
+    text-align: left;
   }
 
   .services {
-    padding: 0 1em;
     width: 100%;
     flex-direction: column;
   }
 
   .services ul {
     margin-bottom: 4em;
+    padding: 0 1em 0 0;
   }
 
   .links li {
     padding: 0 1em;
   }
-}
 
-@media (max-width: 767px) {
   header {
     min-height: auto;
     height: auto;
+  }
+}
+
+@media (max-width: 1366px) {
+  .clients .text-client a {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 414px) {
+  .clients .text-client a {
+    font-size: 1em;
+    line-height: 1em;
+  }
+}
+
+@media (max-width: 320px) {
+  .clients .text-client a {
+    font-size: 0.8em;
   }
 }
