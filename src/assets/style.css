@@ -74,9 +74,9 @@ blockquote {
 }
 
 .button:hover {
-  background: black;
-  background: rgb(0, 0, 0);
+  background: rgb(70, 150, 200);
   text-decoration: none;
+  color: #fff;
 }
 
 footer {
@@ -121,12 +121,6 @@ header .button,
 section.dark .button {
   color: rgb(22, 22, 22);
   background: rgb(255, 255, 255);
-}
-
-header .button:hover,
-section.dark .button:hover {
-  background: black;
-  color: rgb(255, 255, 255);
 }
 
 .clients {
@@ -180,6 +174,11 @@ section.dark .button:hover {
 .clients li.text-client {
   color: #fff;
   background: rgb(70, 150, 200);
+  filter: none;
+}
+
+.clients li.text-client:hover {
+  background: rgb(58, 140, 190);
 }
 
 .text-client a {
