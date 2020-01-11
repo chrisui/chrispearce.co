@@ -12,11 +12,12 @@
     <p>Available Immediately</p>
   </a>-->
     <header>
+      <canvas id="canvas"></canvas>
       <div class="content">
         <h3>Chris Pearce</h3>
         <h1>Software Engineering & Product</h1>
         <p>
-          Need to give your product the best kick-start? With over 10 years of
+          Need to give your product the best kick-start? With over 12 years of
           design and engineering experience, working across a broad range of
           products and platforms, I can do just that.
         </p>
@@ -92,7 +93,7 @@
           <li>
             <h4>Training, Mentoring, Leadership</h4>
             <h5>
-              I can help fill in any gaps using my ten years of leading
+              I can help fill in any gaps using my twelve years of leading
               experience.
             </h5>
           </li>
@@ -221,5 +222,40 @@
         </li>
       </ul>
     </footer>
+
+    <script src="https://unpkg.com/pts/dist/pts.js"></script>
+    <script>
+      Pts.namespace(window);
+      Pts.quickStart("#canvas", "rgb(22, 22, 22)");
+      var pts = new Group();
+      space.add({
+        start: bound => {
+          pts = Create.distributeRandom(space.innerBound, 200);
+        },
+        animate: (time, ftime) => {
+          var perpend = new Group(
+            space.center.$subtract(0.1),
+            space.pointer
+          ).op(Line.perpendicularFromPt);
+          pts.rotate2D(0.0005, space.center);
+          pts.forEach((p, i) => {
+            var lp = perpend(p);
+            var ratio =
+              Math.min(
+                1,
+                1 - lp.$subtract(p).magnitude() / (space.size.x / 2)
+              ) * 0.3;
+            form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
+            form
+              .fillOnly(
+                ["rgb(50, 50, 50)", "rgb(50, 50, 50)", "rgb(30, 30, 30)"][i % 3]
+              )
+              .point(p, 1);
+          });
+        },
+      });
+
+      space.play();
+    </script>
   </body>
 </html>
