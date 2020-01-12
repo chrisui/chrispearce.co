@@ -142,10 +142,16 @@ section.dark .button {
   align-items: stretch;
   flex-direction: column;
   color: rgb(255, 255, 255);
+  transition: filter 0.3s ease-in-out;
+}
+
+.client.highlight {
+  filter: none;
 }
 
 .clients li:hover {
   filter: none;
+  transition: none;
 }
 
 .clients a:hover {
