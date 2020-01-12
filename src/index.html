@@ -208,11 +208,13 @@
     </footer>
 
     <script src="https://unpkg.com/pts/dist/pts.js"></script>
-    <script>
+    <script type="text/javascript">
       Pts.namespace(window);
       Pts.quickStart("#canvas", "rgb(22, 22, 22)");
       var pts = new Group();
+      var animTime = 0;
       space.autoResize = true;
+      var fadeInTime = 2500;
       space.add({
         start: bound => {
           pts = Create.distributeRandom(
@@ -226,6 +228,11 @@
         animate: (time, ftime) => {
           var points = [];
           var pointRatios = [];
+          animTime += ftime;
+          var fadeInRatio = Math.min(
+            1,
+            Math.min(animTime, fadeInTime) / fadeInTime
+          );
           pts.rotate2D(0.0005, space.center);
           pts.forEach((p, i) => {
             var pointRatio = Math.abs(
@@ -240,13 +247,15 @@
           });
           pts.forEach((p, i) => {
             p = points[i];
-            var pr = pointRatios[i];
+            var pr = pointRatios[i] * fadeInRatio;
             var lp = points[i - 1] || p;
             var ratio =
               Math.min(
                 1,
                 1 - lp.$subtract(p).magnitude() / (space.width * 1.5)
-              ) * 0.2;
+              ) *
+              0.2 *
+              fadeInRatio;
 
             form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
             form
@@ -256,7 +265,7 @@
                   0.2
                 )})`
               )
-              .point(p, Math.max(2 * pr, 1));
+              .point(p, Math.max(2 * pr, 1) * fadeInRatio);
           });
         },
       });

@@ -4,7 +4,7 @@ Personal site of [Chris Pearce](https://chrispearce.co), Software Engineering & 
 
 # Install for development
 
-`npm install -g cssnano-cli html-minifier tinypng-cli autoprefixer-cli`
+`npm install -g cssnano-cli html-minifier-terser tinypng-cli autoprefixer-cli`
 
 # Build
 
