@@ -216,14 +216,13 @@
       var animTime = 0;
       space.autoResize = true;
       var fadeInTime = 2500;
+      var contrast = 0.21;
       space.add({
         start: bound => {
-          pts = Create.distributeRandom(
-            new Bound(
-              new Pt([0 - space.width * 0.25, 0 - space.width * 0.25]),
-              new Pt([space.width * 1.25, space.width * 1.25])
-            ),
-            300 * (window.innerWidth / 2560)
+          pts = Create.gridPts(
+            new Bound(new Pt([0, 0]), new Pt([space.width, space.height])),
+            30 * (space.width / 2560),
+            10 * (space.height / 1440)
           );
         },
         animate: (time, ftime) => {
@@ -253,22 +252,19 @@
             var ratio =
               Math.min(
                 1,
-                1 - lp.$subtract(p).magnitude() / (space.width * 1.5)
+                1 - lp.$subtract(p).magnitude() / (space.width * 0.5)
               ) *
-              0.25 *
+              contrast *
               fadeInRatio;
 
             form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
             form
               .fillOnly(
-                `rgba(${(i * pts.length) / 255}, 255, 255, ${Math.max(
-                  pr,
-                  0.25
-                )})`
+                `rgba(${255 - pr * 255}, 255, 255, ${Math.max(pr, contrast)})`
               )
               .point(p, Math.max(2 * pr, 1) * fadeInRatio);
           });
-        }
+        },
       });
 
       space
