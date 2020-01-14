@@ -255,7 +255,7 @@
                 1,
                 1 - lp.$subtract(p).magnitude() / (space.width * 1.5)
               ) *
-              0.2 *
+              0.25 *
               fadeInRatio;
 
             form.stroke(`rgba(255,255,255,${ratio}`, ratio * 2).line([p, lp]);
@@ -263,7 +263,7 @@
               .fillOnly(
                 `rgba(${(i * pts.length) / 255}, 255, 255, ${Math.max(
                   pr,
-                  0.2
+                  0.25
                 )})`
               )
               .point(p, Math.max(2 * pr, 1) * fadeInRatio);
