@@ -170,8 +170,9 @@ section.dark {
 
 header h1 {
   font-size: 5vh;
+  font-size: max(5vh, 28px);
   letter-spacing: -0.5px;
-  line-height: 5.3vh;
+  line-height: 1.06em;
   background-color: rgb(20, 20, 20);
   background-image: linear-gradient(
     45deg,
