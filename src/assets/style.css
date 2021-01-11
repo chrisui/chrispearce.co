@@ -1,12 +1,75 @@
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  src: url("./Inter-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 100;
+  src: url("./Inter-Thin.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 200;
+  src: url("./Inter-ExtraLight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 300;
+  src: url("./Inter-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 500;
+  src: url("./Inter-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 600;
+  src: url("./Inter-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 700;
+  src: url("./Inter-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 800;
+  src: url("./Inter-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-display: fallback;
+  font-weight: 900;
+  src: url("./Inter-Black.ttf") format("truetype");
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 300;
   margin: 0 0 0 0;
   line-height: 1.5em;
-  color: black;
+  color: rgb(20, 20, 20);
   background: white;
 }
 
@@ -15,8 +78,15 @@ h2,
 h3,
 h4,
 h5 {
+  font-weight: 700;
   margin: 0;
-  line-height: 1.3em;
+  line-height: 1.2em;
+}
+
+h3,
+h4,
+h5 {
+  font-weight: 500;
 }
 
 a {
@@ -25,7 +95,7 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
+  color: rgb(43, 133, 255);
 }
 
 header,
@@ -65,18 +135,21 @@ blockquote {
 
 .button {
   display: inline-block;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-  color: rgb(255, 255, 255);
-  background: rgb(22, 22, 22);
+  padding: 0.75em 1.5em;
+  border-radius: 2.25em;
+  color: rgb(20, 20, 20);
+  background: transparent;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
+  border: 2px solid rgb(20, 20, 20);
+  transition: color 0.2s ease-out, border-color 0.2s ease-out;
 }
 
-.button:hover {
-  background: rgb(70, 150, 200);
+.button:hover,
+.dark .button:hover {
+  border-color: rgb(43, 133, 255);
   text-decoration: none;
-  color: #fff;
+  color: rgb(43, 133, 255);
 }
 
 footer {
@@ -91,46 +164,96 @@ header {
 
 header,
 section.dark {
-  background: rgb(30, 30, 30);
+  background: rgb(20, 20, 20);
   color: #fff;
 }
 
 header h1 {
+  font-size: 5vh;
   letter-spacing: -0.5px;
+  line-height: 5.3vh;
+  background-color: rgb(20, 20, 20);
+  background-image: linear-gradient(
+    45deg,
+    rgb(43, 133, 255),
+    rgb(186, 117, 242)
+  );
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  /* below prevents clipping of gradient background */
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  transition: background 0.6s ease-out;
+}
+
+header h1:hover {
+  background-size: 150%;
+}
+
+.dark.nav {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 2vh;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgb(20, 20, 20);
+  background: linear-gradient(
+    180deg,
+    rgba(20, 20, 20, 1) 0%,
+    rgba(20, 20, 20, 0) 100%
+  );
+}
+
+.logo h3 {
+  font-size: 24px;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+.logo h5 {
+  font-size: 10.3px;
+  font-weight: 200;
+  text-transform: uppercase;
 }
 
 header p + p {
-  margin-top: 1.3em;
+  margin-top: 1vh;
 }
 
-header p,
-blockquote {
-  margin: 1em 0 0 0;
+header p {
+  margin: 1vh 0 0 0;
   max-width: 780px;
-  letter-spacing: 0.5px;
+  color: rgb(150, 150, 150);
 }
 
-header canvas {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+header p.actions {
+  margin-top: 2vh;
 }
 
 header .button,
 section.dark .button {
-  color: rgb(22, 22, 22);
-  background: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .clients {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
+  max-width: calc(100% - 4vh);
   padding: 0;
   display: flex;
   align-items: stretch;
   align-self: stretch;
-  background: rgb(22, 22, 22);
+  background: rgb(20, 20, 20);
+  overflow: hidden;
+  border-radius: 15px;
 }
 
 .clients li {
@@ -178,13 +301,11 @@ section.dark .button {
 }
 
 .clients li.text-client {
-  color: #fff;
-  background: rgb(70, 150, 200);
-  filter: none;
+  background: rgb(43, 133, 255);
 }
 
-.clients li.text-client:hover {
-  background: rgb(58, 140, 190);
+section.dark p {
+  color: rgb(150, 150, 150);
 }
 
 .text-client a {
@@ -194,7 +315,8 @@ section.dark .button {
   flex: 1;
   padding: 30px;
   font-size: 1.5em;
-  font-weight: 700;
+  font-weight: 500;
+  line-height: 1.2em;
   color: #fff;
 }
 
@@ -202,18 +324,18 @@ section.dark .button {
   list-style: none;
   margin: 0 auto 0 auto;
   padding: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
   max-width: 960px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
 }
 
 .work li {
   display: block;
-  width: 33.33%;
-  text-align: center;
-  padding: 0 1em 3em 1em;
+}
+
+.work p {
+  margin-top: 0;
 }
 
 h5 {
@@ -227,7 +349,7 @@ h5 {
   max-width: 960px;
   display: flex;
   align-items: center;
-  padding: 0 1em;
+  padding: 0 2vh;
 }
 
 .services ul {
@@ -238,6 +360,10 @@ h5 {
 
 .services li + li {
   padding-top: 1.5em;
+}
+
+.services p {
+  margin-top: 0;
 }
 
 .contact {
@@ -275,8 +401,31 @@ img {
 }
 
 @media (max-width: 767px) {
+  .dark.nav {
+    position: static;
+    background: rgb(20, 20, 20);
+    padding: 1em;
+  }
+
+  .logo h3 {
+    font-size: 16px;
+    margin-bottom: 1px;
+    font-weight: 700;
+  }
+
+  .logo h5 {
+    font-size: 8px;
+  }
+
+  .nav .button {
+    font-size: 0.8em;
+    padding: 0;
+    border: 0;
+  }
+
   .clients {
     flex-wrap: wrap;
+    margin: 0 1em;
   }
 
   .clients li {
@@ -286,12 +435,7 @@ img {
   .work {
     width: 100%;
     padding: 0 1em;
-  }
-
-  .work li {
-    width: 50%;
-    padding: 0 0.5em 2em 0.5em;
-    text-align: left;
+    grid-template-columns: 1fr 1fr;
   }
 
   .services {
@@ -310,7 +454,12 @@ img {
 
   header {
     min-height: auto;
-    height: auto;
+    height: calc(90vh - 61px);
+    text-align: center;
+  }
+
+  header p.actions {
+    margin-top: 4vh;
   }
 }
 
