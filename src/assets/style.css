@@ -172,6 +172,7 @@ footer {
 header {
   position: relative;
   padding: 110px 0 50px 0;
+  perspective: 1px;
 }
 
 header.fullscreen {
@@ -215,6 +216,43 @@ header h1 {
 
 header h1:hover {
   background-size: 150%;
+}
+
+.header-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+.header-bg svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  animation: pulse 30s infinite linear;
+}
+
+.header-bg path {
+  fill: none;
+  stroke-width: 1px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(6, 1) translate(0px, 0);
+  }
+  50% {
+    transform: scale(6, 0.8) translate(-300px, 0);
+  }
+  100% {
+    transform: scale(6, 1) translate(-600px, 0);
+  }
 }
 
 .dark.nav {
@@ -510,8 +548,18 @@ img {
     height: calc(90vh - 61px);
   }
 
+  .header-bg {
+    display: none;
+  }
+
   header p.actions {
     margin-top: 4vh;
+  }
+}
+
+@media (min-width: 2561px) {
+  .header-bg {
+    display: none;
   }
 }
 
