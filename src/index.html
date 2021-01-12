@@ -262,6 +262,12 @@
     <!-- / Fathom -->
     <script>
       window.addEventListener("mousemove", recalculate);
+      document.addEventListener("mouseleave", reset);
+
+      function reset() {
+        var el = document.getElementById("lookat-mouse");
+        el.style.transform = "";
+      }
 
       function recalculate(e) {
         var el = document.getElementById("lookat-mouse");
