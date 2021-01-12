@@ -485,6 +485,10 @@ h5 {
   padding-top: 0.5em;
 }
 
+.quote p {
+  margin-top: 5px;
+}
+
 .links {
   display: flex;
   margin: 0 auto;
