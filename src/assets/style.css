@@ -428,6 +428,10 @@ img {
 }
 
 @media (max-width: 767px) {
+  p {
+    line-height: 1.2em;
+  }
+
   .dark.nav {
     position: static;
     background: rgb(20, 20, 20);
@@ -471,7 +475,7 @@ img {
   }
 
   .services ul {
-    margin-bottom: 4em;
+    margin-bottom: 2em;
     padding: 0 1em 0 0;
   }
 
@@ -481,6 +485,11 @@ img {
 
   header {
     text-align: center;
+    padding: 0;
+  }
+
+  section.padded {
+    padding: 2em 1em;
   }
 
   header.fullscreen {
