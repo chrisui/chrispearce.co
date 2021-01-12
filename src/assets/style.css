@@ -94,6 +94,10 @@ a {
   text-decoration: none;
 }
 
+.dark a {
+  color: white;
+}
+
 a:hover {
   color: rgb(43, 133, 255);
 }
@@ -240,6 +244,15 @@ header h1:hover {
   font-size: 10.3px;
   font-weight: 200;
   text-transform: uppercase;
+  color: white;
+}
+
+.logo {
+  transition: color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.logo:hover h5 {
+  color: white;
 }
 
 header p + p {
