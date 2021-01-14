@@ -8,9 +8,9 @@ Personal site of [Chris Pearce](https://chrispearce.co), Software Engineering & 
 
 # Develop
 
-`npx http-server` in the `/src` folder
+`npx http-server src`
 
-Manually refresh on changes... I know?!
+Manually refresh on changes... I know, right?!
 
 # Build
 

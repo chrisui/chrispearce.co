@@ -286,13 +286,13 @@ header .content {
 
 @keyframes slide {
   0% {
-    transform: scale(6, 0.5) translate(0px, 0);
+    transform: scale(4, 0.5) translate(0px, 0);
   }
   50% {
-    transform: scale(6, 0.4) translate(-300px, 0);
+    transform: scale(4, 0.4) translate(-16.66%, 0);
   }
   100% {
-    transform: scale(6, 0.5) translate(-600px, 0);
+    transform: scale(4, 0.5) translate(-33.33%, 0);
   }
 }
 
