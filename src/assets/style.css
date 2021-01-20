@@ -341,7 +341,7 @@ header p + p {
 header p {
   margin: 1vh 0 0 0;
   max-width: 780px;
-  color: rgb(150, 150, 150);
+  color: rgb(180, 180, 180);
 }
 
 header p.actions {
@@ -416,7 +416,7 @@ section.dark .button {
 }
 
 section.dark p {
-  color: rgb(150, 150, 150);
+  color: rgb(180, 180, 180);
 }
 
 .text-client a {
