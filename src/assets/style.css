@@ -69,8 +69,8 @@ body {
   font-weight: 300;
   margin: 0 0 0 0;
   line-height: 1.5em;
-  color: rgb(20, 20, 20);
-  background: white;
+  color: rgb(240, 240, 240);
+  background: rgb(20, 20, 20);
 }
 
 h1,
@@ -96,11 +96,15 @@ a {
 
 header a,
 .dark a {
-  color: white;
+  color: #e8c79e;
+  display: inline-block;
+  padding: 0 3px;
+  margin: 0 -3px;
 }
 
 a:hover {
-  color: rgb(43, 133, 255);
+  background: #e8c79e;
+  color: rgb(20, 20, 20);
 }
 
 header,
@@ -177,7 +181,7 @@ header {
 }
 
 header.fullscreen {
-  min-height: 90vh;
+  min-height: 100vh;
   height: 0px;
   padding: 0;
 }
@@ -197,22 +201,14 @@ header h1 {
   font-size: max(5vh, 28px);
   letter-spacing: -0.5px;
   line-height: 1.06em;
-  background-color: rgb(20, 20, 20);
-  background-image: linear-gradient(
-    45deg,
-    rgb(43, 133, 255),
-    rgb(186, 117, 242)
-  );
-  background-size: 100%;
-  background-repeat: repeat;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
+  background:#e8c79e;
+  color: rgb(20, 20, 20);
   /* below prevents clipping of gradient background */
   padding-bottom: 5px;
   margin-bottom: 5px;
   transition: background 0.6s ease-out;
+  display: inline-block;
+  padding: 5px 10px;
 }
 
 header h1:hover {
@@ -341,7 +337,7 @@ header p + p {
 header p {
   margin: 1vh 0 0 0;
   max-width: 780px;
-  color: rgb(255, 255, 255);
+  color: #e8c79e;
 }
 
 header p.actions {
@@ -590,11 +586,6 @@ img {
 
   section.padded {
     padding: 2em 1em;
-  }
-
-  header.fullscreen {
-    min-height: auto;
-    height: calc(90vh - 61px);
   }
 
   .header-bg {
